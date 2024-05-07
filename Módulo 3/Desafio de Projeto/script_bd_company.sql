@@ -46,7 +46,8 @@ create table departament(
 
 -- 'def', 'company_constraints', 'departament_ibfk_1', 'company_constraints', 'departament', 'FOREIGN KEY', 'YES'
 -- modificar uma constraint: drop e add
-alter table departament drop  departament_ibfk_1;
+-- alter table departament drop  departament_ibfk_1; -- é preciso definir que está dropando constraint para o Bash no Azure não entender que é uma coluna
+alter table departament drop constraint departament_ibfk_1; -- após alteração
 alter table departament 
 		add constraint fk_dept foreign key(Mgr_ssn) references employee(Ssn)
         on update cascade;
@@ -60,7 +61,8 @@ create table dept_locations(
     constraint fk_dept_locations foreign key (Dnumber) references departament (Dnumber)
 );
 
-alter table dept_locations drop fk_dept_locations;
+-- alter table dept_locations drop fk_dept_locations;
+alter table dept_locations drop constraint fk_dept_locations;  -- após alteração
 
 alter table dept_locations 
 	add constraint fk_dept_locations foreign key (Dnumber) references departament(Dnumber)
@@ -87,7 +89,7 @@ create table works_on(
     constraint fk_project_works_on foreign key (Pno) references project(Pnumber)
 );
 
-drop table dependent;
+--drop table dependent;
 create table dependent(
 	Essn char(9) not null,
     Dependent_name varchar(15) not null,
